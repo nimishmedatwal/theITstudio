@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -9,7 +9,7 @@ import {
   TableRow,
   Checkbox,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   table: {
@@ -17,15 +17,34 @@ const useStyles = makeStyles({
   },
 });
 
-const data = [
-  { id: 1, name: 'John Doe', phoneNumber: '1234567890', email: 'john@example.com', hobbies: 'Reading' },
-  { id: 2, name: 'Jane Smith', phoneNumber: '9876543210', email: 'jane@example.com', hobbies: 'Gardening' },
-  // Add more data as needed
-];
-
 const MyTable = () => {
   const classes = useStyles();
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/data");
+      const jsonData = await response.json();
+      setData(jsonData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/data/${id}`, {
+        method: "DELETE",
+      });
+      fetchData(); // Fetch the updated data after deletion
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
   return (
     <TableContainer>
       <Table className={classes.table} aria-label="my table">
@@ -53,7 +72,9 @@ const MyTable = () => {
               <TableCell>{row.hobbies}</TableCell>
               <TableCell>
                 <Button color="primary">Update</Button>
-                <Button color="secondary">Delete</Button>
+                <Button color="secondary" onClick={() => handleDelete(row.id)}>
+                  Delete
+                </Button>
               </TableCell>
             </TableRow>
           ))}

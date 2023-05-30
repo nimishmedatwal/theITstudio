@@ -37,20 +37,32 @@ const MyForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    fetch('http://localhost:3000/api/form-data', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Data inserted:', data);
+   
+    if (
+        formData.name.trim() === '' ||
+        formData.phoneNumber.trim() === '' ||
+        formData.email.trim() === '' ||
+        formData.hobbies.trim() === ''
+      ) {
+        // Handle validation error, display error message or take necessary action
+        return;
+      }
+  
+      fetch('http://localhost:3000/api/form-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       })
-      .catch((error) => {
-        console.error('Error inserting data:', error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Data inserted:', data);
+        })
+        .catch((error) => {
+          console.error('Error inserting data:', error);
+        });
+  
   
     setFormData({
       name: '',
@@ -96,7 +108,7 @@ const MyForm = () => {
         required
       />
       <Button type="submit" onClick={handleSubmit} variant="contained" color="primary">
-        Submit
+        Save
       </Button>
     </form>
   );
