@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const { MongoClient } = require('mongodb');
 
@@ -25,13 +26,12 @@ connectToDatabase().catch(console.error);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors());
 app.post('/api/form-data', async (req, res) => {
   try {
     const { name, phoneNumber, email, hobbies } = req.body;
-
-    const db = client.db('assignmentdata'); // Replace with your database name
-    const collection = db.collection('data'); // Replace with your collection name
+    const db = client.db('assignmentdata'); 
+    const collection = db.collection('data'); 
 
     const dataWithId = { id: currentId++, name, phoneNumber, email, hobbies };
 

@@ -37,7 +37,7 @@ const MyForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    fetch('/api/form-data', {
+    fetch('http://localhost:3000/api/form-data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ const MyForm = () => {
         variant="outlined"
         required
       />
-      <Button type="submit" variant="contained" color="primary">
+      <Button type="submit" onClick={handleSubmit} variant="contained" color="primary">
         Submit
       </Button>
     </form>
