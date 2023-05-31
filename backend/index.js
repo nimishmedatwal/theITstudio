@@ -4,7 +4,7 @@ const { MongoClient, ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 const app = express();
 const port = 3000;
-
+require('dotenv').config();
 const uri =
   "mongodb+srv://medatwalnimish:test123@assignment.c0plkcu.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
@@ -77,8 +77,8 @@ app.delete("/api/data/:id", async (req, res) => {
 const transporter = nodemailer.createTransport({
   service: "gmail", // e.g., 'Gmail', 'Outlook'
   auth: {
-    user: "medatwalnimish@gmail.com",
-    pass: "gszevzxsriqineft",
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
 });
 // API endpoint for sending email
