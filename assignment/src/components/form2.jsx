@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   TextField,
@@ -33,7 +33,6 @@ const MyForm = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
   
@@ -69,7 +68,9 @@ const MyForm = () => {
       phoneNumber: '',
       email: '',
       hobbies: '',
+    
     });
+    fetchData();
   };
   
   return (
